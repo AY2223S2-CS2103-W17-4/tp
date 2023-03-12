@@ -1,13 +1,16 @@
 package seedu.address.ui;
 
-import javafx.stage.Stage;
+import java.util.Scanner;
 
-/**
- * API of UI component
- */
-public interface Ui {
+public class Ui {
+    private static final Scanner scanner = new Scanner(System.in);
+    private Ui(){
+    }
+    public static void showReply(String msg) {
+        System.out.println(msg);
+    }
 
-    /** Starts the UI (and the App).  */
-    void start(Stage primaryStage);
-
+    public static String getUserInput() {
+        return scanner.nextLine();
+    }
 }

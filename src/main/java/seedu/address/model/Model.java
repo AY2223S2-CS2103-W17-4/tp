@@ -1,87 +1,45 @@
 package seedu.address.model;
 
-import java.nio.file.Path;
-import java.util.function.Predicate;
+import java.io.IOException;
 
-import javafx.collections.ObservableList;
-import seedu.address.commons.core.GuiSettings;
-import seedu.address.model.entity.person.Person;
+import seedu.address.logic.commands.Command;
+import seedu.address.model.entity.shop.Shop;
+import seedu.address.storage.Serializer;
+import seedu.address.ui.Ui;
 
-/**
- * The API of the Model component.
- */
-public interface Model {
-    /** {@code Predicate} that always evaluate to true */
-    Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+public class Model {
 
-    /**
-     * Replaces user prefs data with the data in {@code userPrefs}.
-     */
-    void setUserPrefs(ReadOnlyUserPrefs userPrefs);
+    private static final String SHOP_FILE_NAME = "shop.ser";
+    private static final String LOAD_ERROR_MSG = "There was an error loading stored data."
+    private final Serializer<Shop> shopSerializer;
+    private final Shop shop;
+    private final ShopParser shopParser;
 
-    /**
-     * Returns the user prefs.
-     */
-    ReadOnlyUserPrefs getUserPrefs();
+    private boolean isExit = false;
 
-    /**
-     * Returns the user prefs' GUI settings.
-     */
-    GuiSettings getGuiSettings();
+    public Model() {
+        this.shopSerializer = Serializer.of(Shop.class, SHOP_FILE_NAME);
+        this.shopParser = null //TODO
+        Shop temp = null;
+        try {
+            temp = this.shopSerializer.load();
+        } catch (IOException ex) {
+            temp = new Shop();
+        } catch (ClassCastException | ClassNotFoundException ex) {
+            Ui.showReply(LOAD_ERROR_MSG);
+            temp = new Shop();
+        }
+        this.shop = temp;
+    }
 
-    /**
-     * Sets the user prefs' GUI settings.
-     */
-    void setGuiSettings(GuiSettings guiSettings);
-
-    /**
-     * Returns the user prefs' address book file path.
-     */
-    Path getAddressBookFilePath();
-
-    /**
-     * Sets the user prefs' address book file path.
-     */
-    void setAddressBookFilePath(Path addressBookFilePath);
-
-    /**
-     * Replaces address book data with the data in {@code addressBook}.
-     */
-    void setAddressBook(ReadOnlyAddressBook addressBook);
-
-    /** Returns the AddressBook */
-    ReadOnlyAddressBook getAddressBook();
-
-    /**
-     * Returns true if a person with the same identity as {@code person} exists in the address book.
-     */
-    boolean hasPerson(Person person);
-
-    /**
-     * Deletes the given person.
-     * The person must exist in the address book.
-     */
-    void deletePerson(Person target);
-
-    /**
-     * Adds the given person.
-     * {@code person} must not already exist in the address book.
-     */
-    void addPerson(Person person);
-
-    /**
-     * Replaces the given person {@code target} with {@code editedPerson}.
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
-     */
-    void setPerson(Person target, Person editedPerson);
-
-    /** Returns an unmodifiable view of the filtered person list */
-    ObservableList<Person> getFilteredPersonList();
-
-    /**
-     * Updates the filter of the filtered person list to filter by the given {@code predicate}.
-     * @throws NullPointerException if {@code predicate} is null.
-     */
-    void updateFilteredPersonList(Predicate<Person> predicate);
+    public void run() {
+        while (!isExit) {
+            String userInput = Ui.getUserInput();
+            Command command = shopParser.parse(userInput);
+            command.execute(shop, shopSerializer);
+            if (command.isExit()) {
+                this.isExit = true;
+            }
+        }
+    }
 }

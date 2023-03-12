@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import seedu.address.model.AddressBook;
-import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.entity.person.Address;
 import seedu.address.model.entity.person.Email;
 import seedu.address.model.entity.person.Name;
