@@ -10,7 +10,7 @@ import seedu.address.ui.Ui;
 public class Model {
 
     private static final String SHOP_FILE_NAME = "shop.ser";
-    private static final String LOAD_ERROR_MSG = "There was an error loading stored data."
+    private static final String LOAD_ERROR_MSG = "There was an error loading stored data.";
     private final Serializer<Shop> shopSerializer;
     private final Shop shop;
     private final ShopParser shopParser;
