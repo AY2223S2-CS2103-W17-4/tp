@@ -49,7 +49,6 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         this.shop = new Shop();
 
-
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredCustomers = new FilteredList<>(this.shop.getCustomerList());
         filteredTechnicians = new FilteredList<>(this.shop.getTechnicianList());

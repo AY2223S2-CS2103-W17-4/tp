@@ -14,6 +14,7 @@ import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.entity.person.Customer;
 import seedu.address.model.entity.person.Person;
 import seedu.address.storage.Storage;
 
@@ -78,4 +79,15 @@ public class LogicManager implements Logic {
     public void setGuiSettings(GuiSettings guiSettings) {
         model.setGuiSettings(guiSettings);
     }
+
+    /**
+     * Returns an unmodifiable view of the filtered list of persons
+     */
+    @Override
+    public ObservableList<Customer> getFilteredCustomerList() {
+        return null;
+    //        return model.get;
+    }
+
+
 }

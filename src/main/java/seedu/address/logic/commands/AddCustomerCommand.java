@@ -23,6 +23,7 @@ public class AddCustomerCommand extends Command {
      * @param customer Customer to be added
      */
     public AddCustomerCommand(Customer customer) {
+        requireNonNull(customer);
         this.toAdd = customer;
     }
 
