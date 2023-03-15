@@ -98,6 +98,7 @@ public interface Model {
      */
     ObservableList<Person> getFilteredPersonList();
 
+
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
      *
@@ -170,4 +171,10 @@ public interface Model {
      * @param part Part to check against
      */
     boolean hasPart(Part part);
+
+    /**
+     * Returns an unmodifiable view of the filtered person list
+     */
+    ObservableList<Customer> getFilteredCustomerList();
+
 }
