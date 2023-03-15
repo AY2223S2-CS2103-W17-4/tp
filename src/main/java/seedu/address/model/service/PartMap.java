@@ -2,6 +2,7 @@ package seedu.address.model.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import seedu.address.model.service.exception.PartNotFoundException;
 
@@ -38,6 +39,10 @@ public class PartMap {
         return map.get(partName);
     }
 
+    public Set<Map.Entry<String, Part>> getEntrySet() {
+        return map.entrySet();
+    }
+
     /**
      * Adds/Sets part into mapping.
      * <p>
@@ -49,4 +54,5 @@ public class PartMap {
     public void addPart(String partName, Part part) {
         this.map.put(partName, part);
     }
+
 }

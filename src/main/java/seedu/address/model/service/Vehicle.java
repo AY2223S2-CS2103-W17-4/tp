@@ -12,7 +12,6 @@ import seedu.address.commons.util.StringUtil;
  * As a start, you may wish to consider VehicleType of creating other subclasses.
  */
 public class Vehicle {
-    private static int incrementalID = 0;
     private int id;
     private int ownerId;
     private String plateNumber;
@@ -30,8 +29,8 @@ public class Vehicle {
      * @param brand       This is the brand of the vehicle (i.e. KIA).
      * @param type        What vehicle type this vehicle is (i.e. Bike)
      */
-    public Vehicle(int ownerId, String plateNumber, String color, String brand, VehicleType type) {
-        id = ++incrementalID;
+    public Vehicle(int id, int ownerId, String plateNumber, String color, String brand, VehicleType type) {
+        this.id = id;
         this.ownerId = ownerId;
         this.plateNumber = plateNumber;
         this.color = color;
@@ -47,8 +46,27 @@ public class Vehicle {
      * @param type What vehicle type this vehicle is (i.e. Bike)
      * @param serviceIds The list of service id this vehicle had/has
      */
-    public Vehicle(String plateNumber, String color, String brand, VehicleType type, Set<Integer> serviceIds) {
-        id = ++incrementalID;
+    public Vehicle(int id, int ownerId, String plateNumber, String color, String brand,
+                   VehicleType type, Set<Integer> serviceIds) {
+        this.id = id;
+        this.ownerId = ownerId;
+        this.plateNumber = plateNumber;
+        this.color = color;
+        this.brand = brand;
+        this.type = type;
+        this.serviceIds.addAll(serviceIds);
+    }
+
+    /**
+     * This method is the constructor for the Vehicle class.
+     * @param plateNumber The Vehicle Registration Number (VRN) of the vehicle.
+     * @param color This is the color of the vehicle.
+     * @param brand This is the brand of the vehicle (i.e. KIA).
+     * @param type What vehicle type this vehicle is (i.e. Bike)
+     * @param serviceIds The list of service id this vehicle had/has
+     */
+    public Vehicle(int id, String plateNumber, String color, String brand, VehicleType type, Set<Integer> serviceIds) {
+        this.id = id;
         this.plateNumber = plateNumber;
         this.color = color;
         this.brand = brand;

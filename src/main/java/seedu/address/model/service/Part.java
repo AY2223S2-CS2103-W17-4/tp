@@ -8,9 +8,8 @@ import seedu.address.model.service.exception.InsufficientPartException;
  */
 public class Part {
 
-    private static int incrementalID = 0;
     private int id;
-    private int stockLeft;
+    private int quantity;
     private String name;
     private String description;
     private Entity purchasedFrom;
@@ -18,37 +17,37 @@ public class Part {
     private final PartType type;
 
     /**
-     * This represents the various types of vehicle parts.
-     */
-    public enum PartType {
-        WHEELS, SUSPENSION, FRAME, GEARBOX, BOLT, HEADLAMP, LIGHT, HORN, STEERING
-    }
-
-    /**
      * This method is the constructor class for a vehicle part.
      *
+     * @param id The id of this vehicle part.
+     * @param quantity Quantity of this part.
      * @param name The name of this vehicle part.
-     * @param type The type of the vehicle part.
+     * @param description The description of this vehicle part.
      * @param cost The cost of the vehicle part.
-     * @param quantity How many in stock.
+     * @param type The type of the vehicle part.
      */
-    public Part(String name, PartType type, int cost, int quantity) {
-        id = ++incrementalID;
+    public Part(int id, int quantity, String name, String description,
+                int cost, PartType type) {
+        this.id = id;
         this.name = name;
         this.type = type;
         this.cost = cost;
-        this.stockLeft = quantity;
+        this.quantity = quantity;
+        this.description = description;
     }
 
     /**
      * This method is the constructor class for a vehicle part with a default stock of 0.
      *
+     * @param id The id of this vehicle part.
      * @param name The name of this vehicle part.
-     * @param type The type of the vehicle part.
+     * @param description The description of this vehicle part.
      * @param cost The cost of the vehicle part.
+     * @param type The type of the vehicle part.
      */
-    public Part(String name, PartType type, int cost) {
-        this(name, type, cost, 0);
+    public Part(int id, String name, String description,
+                int cost, PartType type) {
+        this(id, 0, name, description, cost, type);
     }
 
     /**
@@ -64,8 +63,8 @@ public class Part {
      *
      * @return the quantity of this Part.
      */
-    public int getStockLeft() {
-        return stockLeft;
+    public int getQuantity() {
+        return quantity;
     }
 
     /**
@@ -73,8 +72,8 @@ public class Part {
      *
      * @param quantity The amount in stock.
      */
-    public void setStockLeft(int quantity) {
-        stockLeft = quantity;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     /**
@@ -82,7 +81,7 @@ public class Part {
      * @param quantity Amount to add
      */
     public void increaseStock(int quantity) {
-        setStockLeft(getStockLeft() + quantity);
+        setQuantity(getQuantity() + quantity);
     }
 
     /**
@@ -91,10 +90,10 @@ public class Part {
      * @throws InsufficientPartException if not enough parts
      */
     public void useStock() throws InsufficientPartException {
-        if (stockLeft < 1) {
+        if (quantity < 1) {
             throw new InsufficientPartException(this);
         }
-        stockLeft--;
+        quantity--;
     }
 
     /**
@@ -168,4 +167,11 @@ public class Part {
         this.cost = cost;
     }
 
+    /**
+     * This method returns the type of this Part.
+     * @return the type of this Part.
+     */
+    public PartType getType() {
+        return type;
+    }
 }
