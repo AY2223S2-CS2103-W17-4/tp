@@ -2,7 +2,9 @@ package seedu.address.model.service.appointment;
 
 import static seedu.address.commons.util.StringUtil.NEWLINE;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
@@ -91,6 +93,15 @@ public class Appointment {
 
         return otherAppointment != null
                 && otherAppointment.getId() == getId();
+    }
+
+    // adapted from https://stackoverflow.com/questions/494180/how-do-i-check-if-a-date-is-within-a-certain-range
+    // checks if the date is between arrival and endDate
+    public boolean isWithinRange(LocalDateTime ldt) {
+        LocalDate totalDate = this.getTimeDate().toLocalDate();
+        LocalDate startDate = ldt.toLocalDate().minus(Period.ofDays(1));
+        LocalDate endDate = ldt.toLocalDate().plusDays(1);
+        return (totalDate.isAfter(startDate) && totalDate.isBefore(endDate));
     }
 
     @Override
