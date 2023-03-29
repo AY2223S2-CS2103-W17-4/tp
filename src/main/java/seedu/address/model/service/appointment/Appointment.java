@@ -95,6 +95,11 @@ public class Appointment {
                 && otherAppointment.getId() == getId();
     }
 
+    /***
+     * This method returns a boolean indicating if a date falls on the specified date
+     * @param ldt
+     * @return a boolean indicating if the date falls on the same date as the input
+     */
     // adapted from https://stackoverflow.com/questions/494180/how-do-i-check-if-a-date-is-within-a-certain-range
     // checks if the date is between arrival and endDate
     public boolean isWithinRange(LocalDateTime ldt) {

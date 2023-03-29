@@ -1,16 +1,19 @@
 package seedu.address.logic.commands;
 
-import seedu.address.commons.core.Messages;
-import seedu.address.model.Model;
-import seedu.address.model.service.appointment.Appointment;
+import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import seedu.address.commons.core.Messages;
+import seedu.address.model.Model;
+import seedu.address.model.service.appointment.Appointment;
 
-public class TotalAppointmentCommand extends Command{
+/**
+ ** Finds the number of appointments on the specified date.
+ */
+public class TotalAppointmentCommand extends Command {
 
     public static final String COMMAND_WORD = "totalappointment";
 
@@ -21,9 +24,13 @@ public class TotalAppointmentCommand extends Command{
                                                        + "Example: " + COMMAND_WORD + " "
                                                        + PREFIX_DATE + "2023-02-03";
 
-    public int count = 0;
-    public LocalDateTime date;
+    private int count = 0;
+    private LocalDateTime date;
 
+    /**
+     * constructor for TotalAppointmentCommand
+     * @param date
+     */
     public TotalAppointmentCommand(LocalDateTime date) {
         requireNonNull(date);
         this.date = date;
@@ -34,8 +41,9 @@ public class TotalAppointmentCommand extends Command{
         requireNonNull(model);
         List<Appointment> lastShownList = model.getFilteredAppointmentList();
         for (Appointment appointment : lastShownList) {
-            if (appointment.isWithinRange(date))
+            if (appointment.isWithinRange(date)) {
                 count++;
+            }
         }
         return new CommandResult(
                 String.format(Messages.MESSAGE_DATE_APPOINTMENT_OVERVIEW, count, date.toLocalDate()));
