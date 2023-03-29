@@ -27,7 +27,7 @@ public class TotalAppointmentCommandParser implements Parser<TotalAppointmentCom
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_DATE);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_DATE)) {
+        if (!arePrefixesPresent(argMultimap, PREFIX_DATE) || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, TotalAppointmentCommand.MESSAGE_USAGE));
         }
