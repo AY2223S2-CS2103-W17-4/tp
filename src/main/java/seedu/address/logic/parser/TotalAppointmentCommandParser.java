@@ -37,7 +37,6 @@ public class TotalAppointmentCommandParser implements Parser<TotalAppointmentCom
         LocalDateTime dateTime = date.atTime(time);
 
         return new TotalAppointmentCommand(dateTime);
-
     }
 
     /**
