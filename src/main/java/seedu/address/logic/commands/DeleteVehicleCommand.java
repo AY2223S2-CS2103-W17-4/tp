@@ -48,7 +48,7 @@ public class DeleteVehicleCommand extends RedoableCommand {
 
         model.deleteVehicle(vehicleToDelete);
         IdGenerator.setVehicleIdUnused(id);
-        return new CommandResult(String.format(MESSAGE_DELETE_VEHICLE_SUCCESS, vehicleToDelete));
+        return new CommandResult(String.format(MESSAGE_DELETE_VEHICLE_SUCCESS, vehicleToDelete), Tab.VEHICLES);
     }
 
     @Override

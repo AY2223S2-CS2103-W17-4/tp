@@ -3,9 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.core.Messages;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.entity.person.Customer;
-import seedu.address.model.entity.person.CustomerIdPredicate;
 
 /**
  * Finds and returns the customer details of the provided id.
@@ -14,20 +14,25 @@ public class ViewCustomerCommand extends Command {
 
     public static final String COMMAND_WORD = "viewcustomer";
 
+    public static final String MESSAGE_CUSTOMER_NOT_FOUND = "Customer %d not in system";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Display customer details given the customer id."
             + "Parameters: ID\n"
             + "Example: " + COMMAND_WORD + " 8";
 
-    private final CustomerIdPredicate predicate;
+    private final int customerId;
 
-    public ViewCustomerCommand(CustomerIdPredicate predicate) {
-        this.predicate = predicate;
+    public ViewCustomerCommand(int customerId) {
+        this.customerId = customerId;
     }
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        model.updateFilteredCustomerList(predicate);
+        if (!model.hasCustomer(this.customerId)) {
+            throw new CommandException(String.format(MESSAGE_CUSTOMER_NOT_FOUND, this.customerId));
+        }
+        model.updateFilteredCustomerList(c -> c.getId() == this.customerId);
         Customer current = model.getFilteredCustomerList().get(0);
         model.selectCustomer(current);
         return new CommandResult(
@@ -38,6 +43,6 @@ public class ViewCustomerCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof ViewCustomerCommand // instanceof handles nulls
-                && predicate.equals(((ViewCustomerCommand) other).predicate)); // state check
+                && this.customerId == ((ViewCustomerCommand) other).customerId); // state check
     }
 }

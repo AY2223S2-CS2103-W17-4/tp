@@ -210,4 +210,14 @@ public class ParserUtil {
             throw new ParseException("Time should be in the format 'HH:MM:SS' or 'HH:MM'");
         }
     }
+
+    /**
+     * Return given string.
+     *
+     * @param rawString The String
+     * @return The String.
+     */
+    public static String parseString(String rawString) {
+        return rawString;
+    }
 }

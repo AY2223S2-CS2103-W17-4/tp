@@ -58,7 +58,7 @@ This diagram is applicable also for other commands such as the add equivalent.
 
 <img src="images/ArchitectureSequenceDiagram.png" width="574" />
 
-Omitted from this image is that the `XCommand`, being an  instance of`RedoableCommand`, methods related to it is handled here. For more information, scroll down to the relevant section below. 
+Omitted from this image is that the `XCommand`, being an  instance of`RedoableCommand`, methods related to it is handled here. For more information, scroll down to the relevant section below.
 
 Each of the four main components (also shown in the diagram above),
 
@@ -159,6 +159,19 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Add Feature
+
+### Current Implementation
+The add function is facilitated by `AddXCommand` (`X` is a placeholder for the specific entity to be added e.g. `AddCustomerCommand`)
+
+Here `X` can be `Customer/Appointment/Service/Vehicle/Part/Technician`.
+
+The Sequence Diagram below illustrates the interactions within the Logic component for the `execute("addX args*")` API call.
+
+<img src="images/AddXSequenceDiagram.png"/>
+
+The `addX(x)` method of `Model` adds the entity into the system via adding the entity into `Shop`.
+
 ### View Feature
 
 ### Current Implementation
@@ -186,7 +199,11 @@ The Sequence Diagram that illustrates the interactions within the Logic componen
 
 
 
+### TotalAppointmentCommand Feature
 
+#### Current Implementation
+
+The `totalAppointmentCommand` feature mainly involves iterating through the appointment list and checking if the specified date falls on the same date as the appointment. The way that the validation check is done is by setting the previous day to be the start date and the next day to be the end date. Finally, we check if the current appointment is within the start and end date.
 
 
 
@@ -223,11 +240,11 @@ Step 1. The user launches the application. The `StackUndoRedo` will be initializ
 
 ![UndoRedo0](images/UndoRedo2.png)
 
-Step 2. The user executes delete command. The delete command will be pushed into the `StackUndoRedo`.
+Step 2. The user executes delete command. The delete command will be pushed into the `undoStack` of `StackUndoRedo`.
 
 ![UndoRedo0](images/UndoRedo3.png)
 
-Step 3. The user executes add customer command to add a new customer.
+Step 3. The user executes add customer command to add a new customer. Similarly, the add command will be pushed into the `undoStack` of `StackUndoRedo`.
 
 ![UndoRedo0](images/UndoRedo4.png)
 
@@ -261,7 +278,7 @@ to be cleared.  Commands that are not undoable are not added into the `undoStack
 
 * **Alternative 2:** Individual command has attached logic that allows it to undo/redo by itself.
     * Pros: Will use less memory (e.g. just save what is being deleted).
-    * Cons: Must ensure that the implementation of each command is correct. Adds a lot of complexity that may not seem justified as it is to only accomodate the undo/redo feature.
+    * Cons: Must ensure that the implementation of each command is correct. Adds a lot of complexity that may not seem justified as it is to only accommodate the undo/redo feature.
 
 **Aspect: Data structure to support the undo/redo commands:**
 
@@ -271,46 +288,7 @@ to be cleared.  Commands that are not undoable are not added into the `undoStack
 
 * **Alternative 2:** Use `HistoryManager` for undo/redo.
     * Pros: Does not need to maintain separate stacks and able to use what is in the codebase.
-    * Cons: Single Responsibility Principle and Separation of Concerns are violated as `HistoryManager` would need to handle two different things._
-
-### Update Service Priority Feature
-This feature updates the priority of a service by increasing or decreasing it by 1 level. Priority levels are defined: low, medium, high
-> <b>Note:</b> Services created without specifying a priority by default are set with a low priority.
-#### Implementation
-> <b>Note:</b> In this explanation, X is either `Prioritise` or `Deprioritise`, depending on whether the user enters "prioritise 1" or "deprioritise 1"
-
-Users will be able to update the priority of a Service via 2 different commands: `PrioritiseCommand` and `DeprioritiseCommand`. The logical flow and interaction of both commands work similarly where the only difference is in the adjustment of priority up or down.
-
-When the user uses this feature, the XCommandParser parses the service integer id input of the user and creates a XServiceCommand object with the id passed in as a parameter. The XServiceCommand then calls Model#getServiceList to retrieve the list of services and retrieve the service which id corresponds with the user input. The execution within the XServiceCommand would then create a new `Service` that has an updated priority according to the given Command to increase (`prioritise`) or decrease (`deprioritise`) the level by 1.
-
-Given below is an example usage scenario and the description of how the XServiceCommand executes.
-
-Step 1. The user launches the application and enters "listservices" which executes the command to list all services.
-
-Step 2. In the list of services, service with id 1 has a priority of low. The user enters the "prioritise 1" command to increase the priority of the service with id 1.
-
-Step 3. The PrioritiseServiceCommandParser parses the service integer id input of the user and creates a PrioritiseServiceCommand object with the id passed in as a parameter.
-
-Step 4. The PrioritiseServiceCommand then calls Model#getServiceList to retrieve the list of services and retrieve the service which id corresponds with the user input. The execution within the PrioritiseServiceCommand would then create a new `Service` that has an updated priority of medium, which is then updated in the `Model` with the `setService()` method.
-
-Step 5. Finally, an `updateFilteredServiceList()` is called to display an updated list with all services, included the lastest updated service with the id 1 and a new priority of medium in the Ui. With the increased priority, the service with id 1 should also be displayed higher than those with lower priorities.
-
-The Sequence Diagram below illustrates the interactions with the `Logic` and `Model` components for the `execute("prioritise 1")` or `execute("deprioritise 1")` API call.
-<img src="images/SetServicePrioritySequenceDiagram.png" width="1100" />
-
-#### Design considerations:
-
-**Aspect: The way users can set priority**
-
-* **Alternative 1 (current choice):** Allow priority level adjustment by increasing or decreasing level by 1
-    * Pros: Implementation is easy, parsing is very similar to how other id specific Commands have been implemented
-    * Cons: UX is comprimised slightly as users need to enter the command twice to increase priority from low to high.
-
-* **Alternative 2:** Allow users to directly indicate the priority level they want the service to be set (e.g. setservicepriority 1 high)
-    * Pros: Better UX, users do not need to enter the command twice to increase priority from low to high.
-    * Cons: Need to implement extra steps to validate user input and parse the priority level they input to ensure it matches the system's defined priority levels
-
-_{more aspects and alternatives to be added}_
+    * Cons: Single Responsibility Principle and Separation of Concerns are violated as `HistoryManager` would need to handle more than one thing. For example, it would need to handle the undo and redo as well as the history of the application. This is in contrast with a HistoryManager which is only responsible for the history of the application.
 
 ### \[Proposed\] Data archiving
 

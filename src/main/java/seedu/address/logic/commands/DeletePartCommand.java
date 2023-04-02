@@ -39,7 +39,7 @@ public class DeletePartCommand extends RedoableCommand {
         } else {
             pm.removePart(userString);
         }
-        return new CommandResult(String.format(MESSAGE_DELETE_PART_SUCCESS, userString));
+        return new CommandResult(String.format(MESSAGE_DELETE_PART_SUCCESS, userString), Tab.PARTS);
     }
 
     @Override

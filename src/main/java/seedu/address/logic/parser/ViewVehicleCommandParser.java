@@ -4,7 +4,6 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 
 import seedu.address.logic.commands.ViewVehicleCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.service.VehicleIdPredicate;
 
 /**
  * Parses input arguments and creates a new ViewVehicleCommand object
@@ -19,7 +18,7 @@ public class ViewVehicleCommandParser implements Parser<ViewVehicleCommand> {
     public ViewVehicleCommand parse(String args) throws ParseException {
         try {
             int index = ParserUtil.parseInt(args.trim());
-            return new ViewVehicleCommand(new VehicleIdPredicate(index));
+            return new ViewVehicleCommand(index);
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewVehicleCommand.MESSAGE_USAGE), pe);

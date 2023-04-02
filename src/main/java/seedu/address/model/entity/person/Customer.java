@@ -77,6 +77,14 @@ public class Customer extends Person {
     }
 
     /**
+     * Adds vehicle ID to customer
+     * @param vehicleId Vehicle ID
+     */
+    public void addVehicle(int vehicleId) {
+        this.vehicleIds.add(vehicleId);
+    }
+
+    /**
      * This method removes vehicles from the Customer.
      *
      * @param vehicle The vehicle to add.
@@ -138,7 +146,7 @@ public class Customer extends Person {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, super.getName(), super.getPhone(), super.getEmail(), super.getAddress());
+        return Objects.hash(id);
     }
 
     @Override
@@ -146,5 +154,4 @@ public class Customer extends Person {
         String temp = super.toString();
         return temp + StringUtil.NEWLINE + String.format("Vehicles: %s", this.getVehicleIds());
     }
-
 }

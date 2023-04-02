@@ -17,6 +17,7 @@
 
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
          title="AutoM8" minWidth="450" minHeight="600" onCloseRequest="#handleExit">
   <icons>
@@ -197,6 +198,154 @@
                                 <children>
                                   <StackPane fx:id="serviceDetailsPlaceholder"
                                              VBox.vgrow="ALWAYS"/>
+                                </children>
+                              </VBox>
+                            </children>
+                          </AnchorPane>
+                        </items>
+                      </SplitPane>
+                    </children>
+                  </AnchorPane>
+                </content>
+              </Tab>
+              <Tab disable="false" text="Appointments">
+                <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0">
+                    <children>
+                      <SplitPane dividerPositions="0.2" AnchorPane.bottomAnchor="0.0"
+                                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                 AnchorPane.topAnchor="0.0" styleClass="split-pane">
+                        <items>
+                          <AnchorPane minHeight="0.0" minWidth="360.0" styleClass="anchor-pane">
+                            <children>
+                              <VBox fx:id="appointmentList" minHeight="380.0"
+                                    minWidth="360.0" prefWidth="360"
+                                    AnchorPane.bottomAnchor="0.0"
+                                    AnchorPane.leftAnchor="0.0"
+                                    AnchorPane.rightAnchor="0.0"
+                                    AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+                                <padding>
+                                  <Insets bottom="10" left="10" right="10" top="10"/>
+                                </padding>
+                                <StackPane fx:id="appointmentListPanelPlaceholder"
+                                           VBox.vgrow="ALWAYS"/>
+                              </VBox>
+                            </children>
+                          </AnchorPane>
+                          <AnchorPane minHeight="0.0" minWidth="360.0" styleClass="anchor-pane">
+                            <children>
+                              <VBox fx:id="appointmentDetails" minWidth="360"
+                                    prefWidth="360" styleClass="detailsPane"
+                                    AnchorPane.bottomAnchor="0.0"
+                                    AnchorPane.leftAnchor="0.0"
+                                    AnchorPane.rightAnchor="0.0"
+                                    AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+                                <padding>
+                                  <Insets bottom="10" left="10" right="10" top="10"/>
+                                </padding>
+                                <children>
+                                  <StackPane fx:id="appointmentDetailsPlaceholder"
+                                             VBox.vgrow="ALWAYS"/>
+                                </children>
+                              </VBox>
+                            </children>
+                          </AnchorPane>
+                        </items>
+                      </SplitPane>
+                    </children>
+                  </AnchorPane>
+                </content>
+              </Tab>
+              <Tab disable="false" text="Technicians">
+                <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0">
+                    <children>
+                      <SplitPane dividerPositions="0.2" AnchorPane.bottomAnchor="0.0"
+                                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                 AnchorPane.topAnchor="0.0" styleClass="split-pane">
+                        <items>
+                          <AnchorPane minHeight="0.0" minWidth="360.0" styleClass="anchor-pane">
+                            <children>
+                              <VBox fx:id="technicianList" minHeight="380.0"
+                                    minWidth="360.0" prefWidth="360"
+                                    AnchorPane.bottomAnchor="0.0"
+                                    AnchorPane.leftAnchor="0.0"
+                                    AnchorPane.rightAnchor="0.0"
+                                    AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+                                <padding>
+                                  <Insets bottom="10" left="10" right="10" top="10"/>
+                                </padding>
+                                <StackPane fx:id="technicianListPanelPlaceholder"
+                                           VBox.vgrow="ALWAYS"/>
+                              </VBox>
+                            </children>
+                          </AnchorPane>
+                          <AnchorPane minHeight="0.0" minWidth="360.0" styleClass="anchor-pane">
+                            <children>
+                              <VBox fx:id="technicianDetails" minWidth="360"
+                                    prefWidth="360" styleClass="detailsPane"
+                                    AnchorPane.bottomAnchor="0.0"
+                                    AnchorPane.leftAnchor="0.0"
+                                    AnchorPane.rightAnchor="0.0"
+                                    AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+                                <padding>
+                                  <Insets bottom="10" left="10" right="10" top="10"/>
+                                </padding>
+                                <children>
+                                  <StackPane fx:id="technicianDetailsPlaceholder"
+                                             VBox.vgrow="ALWAYS"/>
+                                </children>
+                              </VBox>
+                            </children>
+                          </AnchorPane>
+                        </items>
+                      </SplitPane>
+                    </children>
+                  </AnchorPane>
+                </content>
+              </Tab>
+              <Tab disable="false" text="Parts">
+                <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0">
+                    <children>
+                      <SplitPane dividerPositions="0.2" AnchorPane.bottomAnchor="0.0"
+                                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                 AnchorPane.topAnchor="0.0" styleClass="split-pane">
+                        <items>
+                          <AnchorPane minHeight="0.0" minWidth="360.0" styleClass="anchor-pane">
+                            <children>
+                              <VBox fx:id="partList" minWidth="360"
+                                    prefWidth="360" styleClass="detailsPane"
+                                    AnchorPane.bottomAnchor="0.0"
+                                    AnchorPane.leftAnchor="0.0"
+                                    AnchorPane.rightAnchor="0.0"
+                                    AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+                                <padding>
+                                  <Insets bottom="10" left="10" right="10" top="10"/>
+                                </padding>
+                                <children>
+                                  <StackPane fx:id="partListPlaceholder" VBox.vgrow="ALWAYS" />
+                                </children>
+                              </VBox>
+                            </children>
+                          </AnchorPane>
+                          <AnchorPane minHeight="0.0" minWidth="360.0" styleClass="anchor-pane">
+                            <children>
+                              <VBox fx:id="partDetails" minWidth="360"
+                                    prefWidth="360" styleClass="detailsPane"
+                                    AnchorPane.bottomAnchor="0.0"
+                                    AnchorPane.leftAnchor="0.0"
+                                    AnchorPane.rightAnchor="0.0"
+                                    AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+                                <padding>
+                                  <Insets bottom="10" left="10" right="10" top="10"/>
+                                </padding>
+                                <children>
+                                  <StackPane fx:id="partDetailsPlaceholder" VBox.vgrow="ALWAYS">
+                                    <children>
+                                      <Label fx:id="title" style="-fx-text-fill: #837e7e;" styleClass="details-heading" text="Details view not available for parts" />
+                                    </children>
+                                  </StackPane>
                                 </children>
                               </VBox>
                             </children>

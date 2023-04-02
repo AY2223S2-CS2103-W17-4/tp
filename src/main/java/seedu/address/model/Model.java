@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
@@ -9,8 +10,10 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.entity.person.Customer;
 import seedu.address.model.entity.person.Person;
 import seedu.address.model.entity.person.Technician;
+import seedu.address.model.mapping.AppointmentDataMap;
 import seedu.address.model.mapping.CustomerVehicleMap;
 import seedu.address.model.mapping.ServiceDataMap;
+import seedu.address.model.mapping.TechnicianDataMap;
 import seedu.address.model.mapping.VehicleDataMap;
 import seedu.address.model.service.PartMap;
 import seedu.address.model.service.Service;
@@ -72,6 +75,7 @@ public interface Model {
      * Replaces address book data with the data in {@code addressBook}.
      */
     void setAddressBook(ReadOnlyAddressBook addressBook);
+
     /**
      * Replaces address book data with the data in {@code addressBook}.
      */
@@ -127,7 +131,7 @@ public interface Model {
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
-    void updateFilteredAppointmentList(Predicate<Appointment> predicate);
+    void updateFilteredAppointmentList(Predicate<? super Appointment> predicate);
 
     // ==== For Customers ==
 
@@ -142,7 +146,7 @@ public interface Model {
      *
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredCustomerList(Predicate<Customer> predicate);
+    void updateFilteredCustomerList(Predicate<? super Customer> predicate);
 
     /**
      * Adds customer to the shop
@@ -185,6 +189,8 @@ public interface Model {
 
     void deleteVehicle(Vehicle target);
 
+    void setVehicle(Vehicle target, Vehicle editedVehicle);
+
     // ==== For Services ==
 
     /**
@@ -217,6 +223,13 @@ public interface Model {
     void addAppointment(Appointment appointment);
 
     /**
+     * Checks if appointment in the system
+     *
+     * @param appointmentId ID of appointment
+     */
+    boolean hasAppointment(int appointmentId);
+
+    /**
      * Adds part
      *
      * @param partName Name of the part to add
@@ -228,19 +241,29 @@ public interface Model {
      * Adds part to service
      *
      * @param serviceId ID of service
-     * @param partName Name of part
-     * @param quantity Quantity of part
+     * @param partName  Name of part
+     * @param quantity  Quantity of part
      * @throws NoSuchElementException If service not in system
      */
     void addPartToService(int serviceId, String partName, int quantity) throws NoSuchElementException;
 
     /**
      * Assigns existing technician to existing service
+     *
      * @param serviceId ID of service
-     * @param techId ID of technician
+     * @param techId    ID of technician
      * @throws NoSuchElementException If technician or service not in system
      */
     void addTechnicianToService(int serviceId, int techId) throws NoSuchElementException;
+
+    /**
+     * Assigns existing technician to existing appointment
+     *
+     * @param techId ID of technician
+     * @param appointmentId ID of appointment
+     * @throws NoSuchElementException if technician ID or appointment ID does not exist
+     */
+    void addTechnicianToAppointment(int techId, int appointmentId) throws NoSuchElementException;
 
     /**
      * Checks if part already exists
@@ -265,21 +288,29 @@ public interface Model {
      */
     boolean hasTechnician(int technicianId);
 
-    void updateFilteredTechnicianList(Predicate<Technician> predicate);
+    void updateFilteredTechnicianList(Predicate<? super Technician> predicate);
 
-    void updateFilteredVehicleList(Predicate<Vehicle> predicate);
+    void updateFilteredVehicleList(Predicate<? super Vehicle> predicate);
 
-    void updateFilteredServiceList(Predicate<Service> predicate);
+    void updateFilteredServiceList(Predicate<? super Service> predicate);
+
+    void setAppointment(Appointment target, Appointment editedAppointment);
 
     void updatePartsMap();
 
     void deleteTechnician(Technician target);
+
+    void setTechnician(Technician target, Technician editedPerson);
 
     CustomerVehicleMap getCustomerVehicleMap();
 
     VehicleDataMap getVehicleDataMap();
 
     ServiceDataMap getServiceDataMap();
+
+    AppointmentDataMap getAppointmentDataMap();
+
+    TechnicianDataMap getTechnicianDataMap();
 
     /**
      * Sets currently selected customer
@@ -309,5 +340,69 @@ public interface Model {
     /**
      * Returns currently selected service
      */
+    Appointment getSelectedAppointment();
+
+    /**
+     * Sets currently selected appointment
+     */
+    void selectAppointment(Appointment appointment);
+
+    /**
+     * Returns currently selected service
+     */
     Service getSelectedService();
+
+    /**
+     * Returns currently selected technician
+     */
+    Technician getSelectedTechnician();
+
+    /**
+     * Sets currently selected technician
+     */
+    void selectTechnician(Technician technician);
+
+    void setService(Service target, Service editedService);
+
+    // Sort helper functions
+
+    /**
+     * Updates the comparator used to sort customers
+     *
+     * @param cmp Customer comparator
+     */
+    void updateCustomerComparator(Comparator<? super Customer> cmp);
+
+    /**
+     * Updates the comparator used to sort vehicles
+     *
+     * @param cmp Vehicle comparator
+     */
+    void updateVehicleComparator(Comparator<? super Vehicle> cmp);
+
+    /**
+     * Updates the comparator used to sort services
+     *
+     * @param cmp Service comparator
+     */
+    void updateServiceComparator(Comparator<? super Service> cmp);
+
+    /**
+     * Updates the comparator used to sort appointments
+     *
+     * @param cmp Appointment comparator
+     */
+    void updateAppointmentComparator(Comparator<? super Appointment> cmp);
+
+    /**
+     * Updates the comparator used to sort technicians
+     *
+     * @param cmp Technician comparator
+     */
+    void updateTechnicianComparator(Comparator<? super Technician> cmp);
+
+    /**
+     * Update mappings
+     */
+    void resetMaps();
 }

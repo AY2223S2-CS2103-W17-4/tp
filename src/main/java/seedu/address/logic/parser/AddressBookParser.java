@@ -13,6 +13,7 @@ import seedu.address.logic.commands.AddPartCommand;
 import seedu.address.logic.commands.AddPartToServiceCommand;
 import seedu.address.logic.commands.AddServiceCommand;
 import seedu.address.logic.commands.AddTechnicianCommand;
+import seedu.address.logic.commands.AddTechnicianToAppointmentCommand;
 import seedu.address.logic.commands.AddTechnicianToServiceCommand;
 import seedu.address.logic.commands.AddVehicleCommand;
 import seedu.address.logic.commands.ClearCommand;
@@ -23,20 +24,36 @@ import seedu.address.logic.commands.DeleteCustomerCommand;
 import seedu.address.logic.commands.DeleteServiceCommand;
 import seedu.address.logic.commands.DeleteTechnicianCommand;
 import seedu.address.logic.commands.DeleteVehicleCommand;
+import seedu.address.logic.commands.EditAppointmentCommand;
 import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.EditCustomerCommand;
+import seedu.address.logic.commands.EditServiceCommand;
+import seedu.address.logic.commands.EditTechnicianCommand;
+import seedu.address.logic.commands.EditVehicleCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.ListAppointmentsCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ListCustomersCommand;
+import seedu.address.logic.commands.ListPartsCommand;
 import seedu.address.logic.commands.ListServicesCommand;
+import seedu.address.logic.commands.ListTechniciansCommand;
 import seedu.address.logic.commands.ListVehiclesCommand;
 import seedu.address.logic.commands.RedoCommand;
+import seedu.address.logic.commands.RemovePartFromServiceCommand;
+import seedu.address.logic.commands.RemoveTechnicianFromAppointmentCommand;
+import seedu.address.logic.commands.RemoveTechnicianFromServiceCommand;
+import seedu.address.logic.commands.SortAppointmentsCommand;
+import seedu.address.logic.commands.SortCustomersCommand;
+import seedu.address.logic.commands.SortServicesCommand;
+import seedu.address.logic.commands.SortTechniciansCommand;
+import seedu.address.logic.commands.SortVehiclesCommand;
+import seedu.address.logic.commands.TotalAppointmentCommand;
 import seedu.address.logic.commands.TotalAppointmentCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.ViewAppointmentCommand;
 import seedu.address.logic.commands.ViewCustomerCommand;
-import seedu.address.logic.commands.ViewPartCommand;
 import seedu.address.logic.commands.ViewServiceCommand;
 import seedu.address.logic.commands.ViewTechnicianCommand;
 import seedu.address.logic.commands.ViewVehicleCommand;
@@ -126,6 +143,11 @@ public class AddressBookParser {
         case AddTechnicianToServiceCommand.COMMAND_WORD:
             return new AddTechnicianToServiceCommandParser().parse(arguments);
 
+        case AddTechnicianToAppointmentCommand.COMMAND_WORD:
+            return new AddTechnicianToAppointmentCommandParser().parse(arguments);
+
+        // List
+
         case ListCustomersCommand.COMMAND_WORD:
             return new ListCustomersCommand();
 
@@ -135,9 +157,16 @@ public class AddressBookParser {
         case ListServicesCommand.COMMAND_WORD:
             return new ListServicesCommand();
 
+        case ListTechniciansCommand.COMMAND_WORD:
+            return new ListTechniciansCommand();
 
-        case ViewPartCommand.COMMAND_WORD:
-            return new ViewPartCommand(arguments.trim());
+        case ListAppointmentsCommand.COMMAND_WORD:
+            return new ListAppointmentsCommand();
+
+        case ListPartsCommand.COMMAND_WORD:
+            return new ListPartsCommand();
+
+        // View
 
         case ViewVehicleCommand.COMMAND_WORD:
             return new ViewVehicleCommandParser().parse(arguments.trim());
@@ -154,6 +183,8 @@ public class AddressBookParser {
         case ViewServiceCommand.COMMAND_WORD:
             return new ViewServiceCommandParser().parse(arguments.trim());
 
+        // Delete
+
         case DeleteVehicleCommand.COMMAND_WORD:
             return new DeleteVehicleCommandParser().parse(arguments.trim());
 
@@ -169,8 +200,52 @@ public class AddressBookParser {
         case DeleteTechnicianCommand.COMMAND_WORD:
             return new DeleteTechnicianCommandParser().parse(arguments.trim());
 
+        case RemovePartFromServiceCommand.COMMAND_WORD:
+            return new RemovePartFromServiceCommandParser().parse(arguments);
+
+        case RemoveTechnicianFromServiceCommand.COMMAND_WORD:
+            return new RemoveTechnicianFromServiceCommandParser().parse(arguments);
+
+        case RemoveTechnicianFromAppointmentCommand.COMMAND_WORD:
+            return new RemoveTechnicianFromAppointmentCommandParser().parse(arguments);
+
+        // Edit
+
+        case EditAppointmentCommand.COMMAND_WORD:
+            return new EditAppointmentCommandParser().parse(arguments);
+
+        case EditCustomerCommand.COMMAND_WORD:
+            return new EditCustomerCommandParser().parse(arguments);
+
+        case EditVehicleCommand.COMMAND_WORD:
+            return new EditVehicleCommandParser().parse(arguments);
+
+        case EditTechnicianCommand.COMMAND_WORD:
+            return new EditTechnicianCommandParser().parse(arguments);
+
+        case EditServiceCommand.COMMAND_WORD:
+            return new EditServiceCommandParser().parse(arguments);
+
+        // Sort
+
+        case SortCustomersCommand.COMMAND_WORD:
+            return new SortCustomersCommandParser().parse(arguments);
+
+        case SortVehiclesCommand.COMMAND_WORD:
+            return new SortVehiclesCommandParser().parse(arguments);
+
+        case SortServicesCommand.COMMAND_WORD:
+            return new SortServicesCommandParser().parse(arguments);
+
+        case SortTechniciansCommand.COMMAND_WORD:
+            return new SortTechniciansCommandParser().parse(arguments);
+
+        case SortAppointmentsCommand.COMMAND_WORD:
+            return new SortAppointmentsCommandParser().parse(arguments);
+
         case TotalAppointmentCommand.COMMAND_WORD:
             return new TotalAppointmentCommandParser().parse(arguments);
+
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }

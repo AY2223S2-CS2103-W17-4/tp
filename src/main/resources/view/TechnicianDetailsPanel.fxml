@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox id="technicianDetailsPanel" fx:id="technicianDetailsPanel" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+  <AnchorPane minHeight="0.0" minWidth="340.0" HBox.hgrow="ALWAYS">
+    <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="edge-to-edge" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="parentContainer" alignment="CENTER_LEFT" styleClass="details-box" GridPane.columnIndex="0" HBox.hgrow="ALWAYS">
+        <padding>
+          <Insets bottom="5" left="15" right="15" top="5" />
+        </padding>
+        <Label fx:id="title" style="-fx-text-fill: #62DDEB;" styleClass="details-heading" text="Technician Details">
+          <minHeight>
+            <Region fx:constant="USE_PREF_SIZE" />
+          </minHeight>
+        </Label>
+        <Label id="detailsPaneName" fx:id="id" maxWidth="Infinity" styleClass="details-id" text="Technician ID: " wrapText="true">
+          <minHeight>
+            <Region fx:constant="USE_PREF_SIZE" />
+          </minHeight>
+        </Label>
+        <Label id="detailsPaneName" fx:id="name" maxWidth="Infinity" styleClass="details-title" text="\$first" wrapText="true">
+          <minHeight>
+            <!-- Ensures that the label text is never truncated -->
+            <Region fx:constant="USE_PREF_SIZE" />
+          </minHeight>
+        </Label>
+        <Label id="detailsPaneName" fx:id="subtitle" maxWidth="Infinity" styleClass="cell_title_label" text="Personal Information" underline="true" wrapText="true">
+          <minHeight>
+            <Region fx:constant="USE_PREF_SIZE" />
+          </minHeight>
+        </Label>
+        <HBox spacing="10.0">
+          <children>
+            <VBox prefWidth="100.0">
+              <children>
+                <Label fx:id="phoneLabel" styleClass="details-info-label" text="Mobile Number">
+                </Label>
+                <Label fx:id="phone" minWidth="-Infinity" styleClass="details-info" text="\$phone">
+                </Label>
+              </children>
+            </VBox>
+            <VBox prefWidth="100.0" HBox.hgrow="SOMETIMES">
+              <children>
+                <Label fx:id="emailLabel" styleClass="details-info-label" text="Email">
+                </Label>
+
+                <Label fx:id="email" styleClass="details-info" text="\$email">
+                </Label>
+              </children>
+            </VBox>
+          </children>
+        </HBox>
+        <Label fx:id="addressLabel" styleClass="details-info-label" text="Address">
+          <minHeight>
+            <Region fx:constant="USE_PREF_SIZE" />
+          </minHeight>
+        </Label>
+
+        <Label fx:id="address" styleClass="details-info" text="\$address">
+          <minHeight>
+            <!-- Ensures that the label text is never truncated -->
+            <Region fx:constant="USE_PREF_SIZE" />
+          </minHeight>
+          <VBox.margin>
+            <Insets bottom="4.0" />
+          </VBox.margin>
+        </Label>
+        <Label fx:id="tagsLabel" styleClass="details-info-label" text="Tags">
+          <minHeight>
+            <Region fx:constant="USE_PREF_SIZE" />
+          </minHeight>
+          <VBox.margin>
+            <Insets bottom="5.0" />
+          </VBox.margin>
+        </Label>
+
+        <FlowPane fx:id="tags" styleClass="customerTags">
+          <VBox.margin>
+            <Insets bottom="8.0" />
+          </VBox.margin>
+        </FlowPane>
+      <VBox fx:id="technicianServices">
+        <children>
+          <Label fx:id="servicesLabel" styleClass="cell_title_label" text="Services" underline="true">
+            <minHeight>
+              <Region fx:constant="USE_PREF_SIZE" />
+            </minHeight>
+          </Label>
+        </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+      </VBox>
+      <VBox fx:id="technicianAppointments" prefHeight="200.0" prefWidth="100.0">
+        <children>
+          <Label fx:id="appointmentsLabel" styleClass="cell_title_label" text="Appointments" underline="true" VBox.vgrow="SOMETIMES">
+            <minHeight>
+              <Region fx:constant="USE_PREF_SIZE" />
+            </minHeight>
+          </Label>
+        </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+      </VBox>
+      </VBox>
+    </ScrollPane>
+  </AnchorPane>
+</HBox>

@@ -4,7 +4,6 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 
 import seedu.address.logic.commands.ViewTechnicianCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.entity.person.TechnicianIdPredicate;
 
 /**
  * Parses input arguments and creates a new ViewVehicleCommand object
@@ -20,7 +19,7 @@ public class ViewTechnicianCommandParser implements Parser<ViewTechnicianCommand
 
         try {
             int index = ParserUtil.parseInt(args);
-            return new ViewTechnicianCommand(new TechnicianIdPredicate(index));
+            return new ViewTechnicianCommand(index);
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewTechnicianCommand.MESSAGE_USAGE), pe);

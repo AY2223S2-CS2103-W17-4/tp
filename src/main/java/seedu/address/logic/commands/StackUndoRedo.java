@@ -26,7 +26,7 @@ public class StackUndoRedo {
      */
     public void push(Command command) {
         if (!(command instanceof UndoCommand) && !(command instanceof RedoCommand)) {
-            redoStack.clear();
+            redoStack = new Stack();
         }
 
         if (!(command instanceof RedoableCommand)) {
@@ -40,18 +40,16 @@ public class StackUndoRedo {
      * Pops and returns the next {@code UndoableCommand} to be undone in the stack.
      */
     public RedoableCommand popUndo() {
-        RedoableCommand toUndo = undoStack.pop();
-        redoStack.push(toUndo);
-        return toUndo;
+        redoStack.push(undoStack.pop());
+        return redoStack.peek();
     }
 
     /**
      * Pops and returns the next {@code UndoableCommand} to be redone in the stack.
      */
     public RedoableCommand popRedo() {
-        RedoableCommand toRedo = redoStack.pop();
-        undoStack.push(toRedo);
-        return toRedo;
+        undoStack.push(redoStack.pop());
+        return undoStack.peek();
     }
 
     /**

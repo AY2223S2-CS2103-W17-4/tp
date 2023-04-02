@@ -86,13 +86,13 @@ public class SampleDataUtil {
         return new Technician[]{
             new Technician(IdGenerator.generateStaffId(), new Name("James Tan"), new Phone("89764362"),
                     new Email("jamestan@example.com"), new Address("Blk 586 Bedok Street 23, #08-46"),
-                    getTagSet("big boss")),
+                    getTagSet("big boss"), getIntegerSet(1, 4, 5, 6), getIntegerSet(1, 4)),
             new Technician(IdGenerator.generateStaffId(), new Name("Roy Balakrishnan"), new Phone("92624417"),
                     new Email("royb@example.com"), new Address("Blk 45 Aljunied Street 85, #11-31"),
-                    getTagSet("good technician")),
+                    getTagSet("good technician"), getIntegerSet(3, 7), getIntegerSet(2, 5)),
             new Technician(IdGenerator.generateStaffId(), new Name("Loh Jia Yu"), new Phone("968685152"),
                     new Email("lohjy@example.com"), new Address("Blk 73 Hahn Quay Street 67, #04-45"),
-                    getTagSet("new technician")),
+                    getTagSet("new technician"), getIntegerSet(3, 6), getIntegerSet(4, 5)),
         };
     }
 
@@ -100,11 +100,16 @@ public class SampleDataUtil {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
 
         return new Appointment[] {
-            new Appointment(IdGenerator.generateAppointmentId(), 1, LocalDateTime.parse("10/12/2022 02:00 PM", dtf)),
-            new Appointment(IdGenerator.generateAppointmentId(), 1, LocalDateTime.parse("21/12/2022 02:30 PM", dtf)),
-            new Appointment(IdGenerator.generateAppointmentId(), 1, LocalDateTime.parse("15/02/2023 03:00 PM", dtf)),
-            new Appointment(IdGenerator.generateAppointmentId(), 1, LocalDateTime.parse("01/05/2023 06:00 PM", dtf)),
-            new Appointment(IdGenerator.generateAppointmentId(), 2, LocalDateTime.parse("19/06/2022 12:30 PM", dtf)),
+            new Appointment(IdGenerator.generateAppointmentId(), 1, LocalDateTime.parse("10/12/2022 02:00 PM", dtf),
+                    getIntegerSet(1)),
+            new Appointment(IdGenerator.generateAppointmentId(), 1, LocalDateTime.parse("21/12/2022 02:30 PM", dtf),
+                    getIntegerSet(2)),
+            new Appointment(IdGenerator.generateAppointmentId(), 1, LocalDateTime.parse("15/02/2023 03:00 PM", dtf),
+                    getIntegerSet(3)),
+            new Appointment(IdGenerator.generateAppointmentId(), 1, LocalDateTime.parse("01/05/2023 06:00 PM", dtf),
+                    getIntegerSet(1, 3)),
+            new Appointment(IdGenerator.generateAppointmentId(), 2, LocalDateTime.parse("19/06/2022 12:30 PM", dtf),
+                    getIntegerSet(2, 3)),
             new Appointment(IdGenerator.generateAppointmentId(), 2, LocalDateTime.parse("25/04/2023 11:00 AM", dtf)),
             new Appointment(IdGenerator.generateAppointmentId(), 5, LocalDateTime.parse("28/05/2023 05:45 PM", dtf)),
         };

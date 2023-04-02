@@ -32,6 +32,7 @@ public class Shop implements ReadOnlyShop {
     private final UniqueVehicleList vehicles = new UniqueVehicleList();
     private final UniqueTechnicianList technicians = new UniqueTechnicianList();
     private final ServiceList services = new ServiceList();
+
     private final UniqueAppointmentList appointments = new UniqueAppointmentList();
     private final PartMap partMap = new PartMap();
 
@@ -113,6 +114,11 @@ public class Shop implements ReadOnlyShop {
         this.services.setServices(services);
     }
 
+    public void setService(Service services, Service edit) {
+
+        this.services.setService(services, edit);
+    }
+
     /**
      * Removes {@code key} from this {@code AddressBook}.
      * {@code key} must exist in the address book.
@@ -129,8 +135,15 @@ public class Shop implements ReadOnlyShop {
      *
      * @param appointment Appointment to be added
      */
-    public void addAppointment(Appointment appointment) {
-        this.appointments.add(appointment);
+    public void addAppointment(Appointment appointment) throws PersonNotFoundException {
+        for (var customer : customers) {
+            if (customer.getId() == appointment.getCustomerId()) {
+                customer.addAppointment(appointment);
+                this.appointments.add(appointment);
+                return;
+            }
+        }
+        throw new PersonNotFoundException();
     }
 
     @Override
@@ -142,6 +155,11 @@ public class Shop implements ReadOnlyShop {
         appointments.remove(key);
     }
 
+    public void setAppointment(Appointment target, Appointment editedAppointment) {
+        requireNonNull(editedAppointment);
+        appointments.setAppointment(target, editedAppointment);
+    }
+
     /**
      * Wrapper function to also check if appointment already added
      * but using appointment param
@@ -150,6 +168,15 @@ public class Shop implements ReadOnlyShop {
      */
     public boolean hasAppointment(Appointment appointment) {
         return appointments.contains(appointment);
+    }
+
+    /**
+     * Checks if appointment in the system
+     *
+     * @param appointmentId ID of appointment
+     */
+    public boolean hasAppointment(int appointmentId) {
+        return this.getAppointmentList().stream().anyMatch(a -> a.getId() == appointmentId);
     }
 
     /**
@@ -200,7 +227,8 @@ public class Shop implements ReadOnlyShop {
 
     /**
      * Assigns existing technician to existing service
-     * @param serviceId ID of service
+     *
+     * @param serviceId    ID of service
      * @param technicianId ID of technician
      * @throws NoSuchElementException If service or technician doesn't exist
      */
@@ -213,6 +241,24 @@ public class Shop implements ReadOnlyShop {
             .findFirst()
             .orElseThrow();
         service.assignTechnician(technicianId);
+    }
+
+    /**
+     * Assigns existing technician to existing appointment
+     *
+     * @param technicianId ID of technician
+     * @param appointmentId ID of appointment
+     * @throws NoSuchElementException if technician ID or appointment ID does not exist
+     */
+    public void addTechnicianToAppointment(int technicianId, int appointmentId) throws NoSuchElementException {
+        if (!this.hasTechnician(technicianId)) {
+            throw new NoSuchElementException();
+        }
+        Appointment appointment = this.getAppointmentList().stream()
+            .filter(a -> a.getId() == appointmentId)
+            .findFirst()
+            .orElseThrow();
+        appointment.addTechnician(technicianId);
     }
 
     /**
@@ -296,6 +342,12 @@ public class Shop implements ReadOnlyShop {
      * {@code key} must exist in the address book.
      */
     public void removeCustomer(Customer key) {
+        key.getAppointmentIds().stream()
+            .flatMap(i -> this.getAppointment(i).stream())
+            .forEach(this::removeAppointment);
+        key.getVehicleIds().stream()
+            .flatMap(i -> this.getVehicle(i).stream())
+            .forEach(this::removeVehicle);
         customers.remove(key);
     }
 
@@ -436,6 +488,9 @@ public class Shop implements ReadOnlyShop {
      * {@code key} must exist in the address book.
      */
     public void removeVehicle(Vehicle key) {
+        key.getServiceIds().stream()
+            .flatMap(i -> getService(i).stream())
+            .forEach(this::removeService);
         vehicles.remove(key);
     }
 
@@ -460,6 +515,32 @@ public class Shop implements ReadOnlyShop {
         setTechnicians(newData.getTechnicianList());
         setAppointments(newData.getAppointmentList());
         setTechnicians(newData.getTechnicianList());
+    }
+
+    // Private getters to help in cascading removal
+
+    private Optional<Customer> getCustomer(int customerId) {
+        return this.getCustomerList().stream()
+            .filter(c -> c.getId() == customerId)
+            .findFirst();
+    }
+
+    private Optional<Vehicle> getVehicle(int vehicleId) {
+        return this.getVehicleList().stream()
+            .filter(v -> v.getId() == vehicleId)
+            .findFirst();
+    }
+
+    private Optional<Service> getService(int serviceId) {
+        return this.getServiceList().stream()
+            .filter(v -> v.getId() == serviceId)
+            .findFirst();
+    }
+
+    private Optional<Appointment> getAppointment(int appointmentId) {
+        return this.getAppointmentList().stream()
+            .filter(a -> a.getId() == appointmentId)
+            .findFirst();
     }
 
     //// Delete operations

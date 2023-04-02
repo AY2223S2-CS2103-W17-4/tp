@@ -36,6 +36,9 @@ public class CustomerVehicleMap {
      * @param vehicles  The list of vehicles.
      */
     public void reset(List<Customer> customers, List<Vehicle> vehicles, List<Appointment> appointments) {
+        this.customerToAppointmentsMap.clear();
+        this.customerToVehiclesMap.clear();
+
         Map<Integer, Vehicle> idToVehicleMap = new HashMap<>();
         for (Vehicle vehicle : vehicles) {
             idToVehicleMap.put(vehicle.getId(), vehicle);

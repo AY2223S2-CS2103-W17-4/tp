@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox id="appointmentDetailsPanel" fx:id="appointmentDetailsPanel" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+  <AnchorPane minHeight="0.0" minWidth="340.0" HBox.hgrow="ALWAYS">
+    <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="edge-to-edge" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="parentContainer" alignment="CENTER_LEFT" styleClass="details-box" GridPane.columnIndex="0" HBox.hgrow="ALWAYS">
+        <padding>
+          <Insets bottom="5" left="15" right="15" top="5" />
+        </padding>
+        <Label fx:id="title" style="-fx-text-fill: #62DDEB;" styleClass="details-heading" text="Appointment Details">
+          <minHeight>
+            <Region fx:constant="USE_PREF_SIZE" />
+          </minHeight>
+        </Label>
+        <Label id="detailsPaneName" fx:id="id" maxWidth="Infinity" styleClass="details-id" text="Appointment ID: " wrapText="true">
+          <minHeight>
+            <Region fx:constant="USE_PREF_SIZE" />
+          </minHeight>
+        </Label>
+        <Label id="detailsPaneName" fx:id="customerName" maxWidth="Infinity" styleClass="details-title" text="\\$customerName" wrapText="true">
+          <minHeight>
+            <!-- Ensures that the label text is never truncated -->
+            <Region fx:constant="USE_PREF_SIZE" />
+          </minHeight>
+        </Label>
+        <Label id="detailsPaneName" fx:id="subtitle" maxWidth="Infinity" styleClass="cell_title_label" text="Appointment Information" underline="true" wrapText="true">
+          <minHeight>
+            <Region fx:constant="USE_PREF_SIZE" />
+          </minHeight>
+        </Label>
+        <HBox spacing="10.0">
+          <children>
+            <VBox prefWidth="100.0" HBox.hgrow="SOMETIMES">
+              <children>
+                <Label fx:id="datetimeLabel" styleClass="details-info-label" text="Appointment DateTime">
+                </Label>
+
+                <Label fx:id="datetime" minWidth="-Infinity" styleClass="details-info" text="\\$datetime">
+                </Label>
+              </children>
+            </VBox>
+            <VBox prefWidth="100.0" HBox.hgrow="SOMETIMES">
+              <children>
+                <Label fx:id="customerIdLabel" styleClass="details-info-label" text="Customer ID">
+                </Label>
+
+                <Label fx:id="customerId" styleClass="details-info" text="\\$customerId">
+                </Label>
+              </children>
+            </VBox>
+          </children>
+        </HBox>
+        <Label fx:id="dateStatusLabel" styleClass="details-info-label" text="Date Status">
+          <minHeight>
+            <Region fx:constant="USE_PREF_SIZE" />
+          </minHeight>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+        </Label>
+            <Label fx:id="asOf" styleClass="details-info" text="\\$dateStatus">
+               <minHeight>
+                  <Region fx:constant="USE_PREF_SIZE" />
+               </minHeight>
+            </Label>
+      <Label fx:id="dateStatus" styleClass="details-info" text="\\$dateStatus">
+        <minHeight>
+          <!-- Ensures that the label text is never truncated -->
+          <Region fx:constant="USE_PREF_SIZE" />
+        </minHeight>
+        <VBox.margin>
+          <Insets bottom="4.0" right="5.0" />
+        </VBox.margin>
+      </Label>
+        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+          <children>
+            <VBox fx:id="appointmentStaff" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="SOMETIMES">
+              <children>
+                <Label fx:id="appointmentStaffLabel" styleClass="cell_title_label" text="Staff" underline="true" VBox.vgrow="SOMETIMES">
+                  <minHeight>
+                    <Region fx:constant="USE_PREF_SIZE" />
+                  </minHeight>
+                </Label>
+              </children>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+            </VBox>
+          </children>
+        </HBox>
+      </VBox>
+    </ScrollPane>
+  </AnchorPane>
+</HBox>

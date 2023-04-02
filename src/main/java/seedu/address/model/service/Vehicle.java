@@ -3,15 +3,17 @@ package seedu.address.model.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.commons.util.StringUtil;
+import seedu.address.model.Findable;
 
 /**
  * The vehicle class is the superclass of all types of vehicle.
  * As a start, you may wish to consider VehicleType of creating other subclasses.
  */
-public class Vehicle {
+public class Vehicle implements Findable {
     private int id;
     private int ownerId;
     private String plateNumber;
@@ -168,11 +170,22 @@ public class Vehicle {
 
     /**
      * This method returns the services that is needed to be done to this vehicle.
+     * In a List.
      *
      * @return List of services
      */
     public List<Integer> getServiceIds() {
         return new ArrayList<>(this.serviceIds);
+    }
+
+    /**
+     * This method returns the services that is needed to be done to this vehicle.
+     * In a Set.
+     *
+     * @return Set of services
+     */
+    public Set<Integer> getServiceIdsSet() {
+        return this.serviceIds;
     }
 
     /**
@@ -224,7 +237,7 @@ public class Vehicle {
 
     @Override
     public int hashCode() {
-        return plateNumber.hashCode();
+        return Objects.hash(this.id);
     }
 
     @Override
@@ -239,5 +252,13 @@ public class Vehicle {
                 .append(String.format("%nServices: %n%s",
                         StringUtil.indent(this.getServiceIds().toString(), 2)))
                 .toString();
+    }
+
+    @Override
+    public boolean hasKeyword(String keyword) {
+        return this.brand.toLowerCase().contains(keyword)
+            || this.color.toLowerCase().contains(keyword)
+            || this.plateNumber.toLowerCase().contains(keyword)
+            || this.type.toString().toLowerCase().contains(keyword);
     }
 }

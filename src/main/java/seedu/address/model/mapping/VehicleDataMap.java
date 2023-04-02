@@ -65,6 +65,8 @@ public class VehicleDataMap {
      */
     public void reset(List<Vehicle> vehicles, List<Customer> customers,
             List<Service> services) {
+        this.vehicleToCustomerMap.clear();
+        this.vehicleToServicesMap.clear();
 
         Map<Integer, Customer> idToCustomerMap = new HashMap<>();
         for (Customer customer : customers) {

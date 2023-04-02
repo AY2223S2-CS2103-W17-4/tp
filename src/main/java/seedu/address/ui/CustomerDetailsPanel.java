@@ -22,6 +22,8 @@ public class CustomerDetailsPanel extends UiPart<Region> {
 
     public final Customer customer;
     @FXML
+    private VBox parentContainer;
+    @FXML
     private Label id;
     @FXML
     private Label name;
@@ -52,6 +54,11 @@ public class CustomerDetailsPanel extends UiPart<Region> {
     }
 
     private void update(Customer customer, CustomerVehicleMap dataMap) {
+        if (customer == null) {
+            parentContainer.getChildren().clear();
+            parentContainer.getChildren().add(new EmptyDetailsPanelPlaceholder("Customer").getRoot());
+            return;
+        }
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
 
         id.setText("Customer ID: " + customer.getId());

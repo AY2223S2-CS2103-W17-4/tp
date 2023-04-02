@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import seedu.address.model.Findable;
 import seedu.address.model.entity.Entity;
 import seedu.address.model.tag.Tag;
 
@@ -14,7 +15,7 @@ import seedu.address.model.tag.Tag;
  * Represents a Person in the address book.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class Person extends Entity {
+public class Person extends Entity implements Findable {
 
     // Identity fields
     private final Name name;
@@ -121,4 +122,12 @@ public class Person extends Entity {
         return builder.toString();
     }
 
+    @Override
+    public boolean hasKeyword(String keyword) {
+        return this.getName().toString().toLowerCase().contains(keyword)
+            || this.getEmail().toString().toLowerCase().contains(keyword)
+            || this.getPhone().toString().toLowerCase().contains(keyword)
+            || this.getAddress().toString().toLowerCase().contains(keyword)
+            || this.getTags().stream().anyMatch(s -> s.toString().toLowerCase().contains(keyword));
+    }
 }

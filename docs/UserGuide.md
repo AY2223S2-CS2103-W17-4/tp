@@ -77,16 +77,16 @@ Assigns an existing technician to an existing service
 
 Format: `addservicetech s/SERVICE_ID t/TECHNICIAN_ID`
 
-Example: `addservicetech s/1 t/3` 
+Example: `addservicetech s/1 t/3`
 
-### Adding a vehicle: `add vehicle`
+### Adding a vehicle: `addvehicle`
 Adds a vehicle of specified type (i.e. motorbike, car) to the system and assigns a unique vehicle ID.
 
 Format: `addvehicle p/PLATE_NUMBER b/BRAND c/CUSTOMER_ID t/TYPE`
 
 Example: `addvehicle p/SBA1234A b/Toyota c/1 t/car`
 
-### Adding a vehicle part: `add part`
+### Adding a vehicle part: `addpart`
 Adds a vehicle part to the system.
 
 Format: `addpart n/NAME q/Quantity`
@@ -100,9 +100,9 @@ Service and part must be registered in the system and part must have sufficient 
 
 Format: `addservicepart s/SERVICE ID n/PART NAME q/QUANTITY`
 
-Example: `addservicepart s/2 n/Cylinder Head q/20` 
+Example: `addservicepart s/2 n/Cylinder Head q/20`
 
-### Adding a service to a vehicle: `add service`
+### Adding a service to a vehicle: `addservice`
 Adds a service to perform on the specified vehicle plate number.
 
 Format: `addservice v/VEHICLE_ID [l/SERIVCE LENGTH (days)] [s/STATUS] [d/DESCRIPTION]`
@@ -113,12 +113,19 @@ Examples:
 Note: Adding service without specifying the type of service will default to “to repair” \
 Note: Adding service without specifying the service length will default to 7 days
 
-### Adding a customer appointment: `add appointment`
+### Adding a customer appointment: `addappointment`
 Adds a customer appointment to the system.
 
 Format: `addappointment c/CUSTOMER_ID d/DATE t/TIME`
 
-Example: `addappointment c/5 d/05/03/2023 t/5pm`
+Example: `addappointment c/5 d/2023-03-05 t/14:00`
+
+### Adding a technician to an appointment: `addappointmenttech`
+Adds an existing technician to an exiting appointment.
+
+Format: `addappointmenttech a/APPOINTMENT_ID t/TECHNICIAN_ID`
+
+Example: `addappointmenttech a/1 t/2` 
 
 ---
 ### List/Sort
@@ -126,65 +133,57 @@ Example: `addappointment c/5 d/05/03/2023 t/5pm`
 ### Listing all vehicles/customers/parts/appointments: `list`
 Shows all vehicles/customers/parts/appointments.
 
-Format: `list (vehicles/customers/parts/appointments)`
+Format: `list(vehicles/customers/parts/appointments/services/technicians)`
 
 Examples:
 * `listvehicles`
 * `listcustomers`
 * `listparts`
 * `listappointments`
+* `listtechnicians`
+* `listservices`
 
-Shows a list of all persons in the address book.
 
-### Sorting displayed list: `sort`
+### Sorting displayed lists: `sort`
 Sorts all vehicles/customers/parts/appointments list in ascending or descending direction by a specific param. \
 *Note: Command is context-sensitive (i.e. can only be used after list command)*
 
-Format: `sort by/BRAND d/DIRECTION`
+Format: `sort(vehicles/customers/parts/appointments/services) by/OBJECT_PARAMS [r/]`
+OBJECT_PARAMS are dependent on which object* and adding `r/` means to reverse the sort direction
 
-Example: `sort by/brand d/asc`
+Examples: 
+* `sortcustomers by/id r/`
+* `sortvehicles by/brand`
+* `sortappointments by/date r/`
+* `sortappointments by/date status`
 
 ---
 ### Find
 
-### Finding specific vehicles/customers/parts/appointments: `find`
+### Finding specific vehicles/customers/services/appointments/technicians: `find`
 
-Finds vehicles/customers/parts/appointments that contain any of the given keywords. This does not return details regarding the searched term, only returns information useful for other commands such as view, delete etc.
-* Vehicle - can find by brand, plate number and customer id
-* Customer - can find by name and customer id
-* Part - can find by name
-* Appointment - can find by customer id and date
+Finds all entities whose attributes match the specified keywords (case-insensitive) or the given date, to filter and displays them in the relevant tab lists.
 
-Format: `find (vehicle/customer/part/appointment) KEYWORD`
+Format: `find KEYWORD [MORE SPACE-SEPERATED KEYWORDS]`
 
 Examples:
-* `findvehicle toyota`
-* `findcustomer John`
-* `findpart Cylinder Head`
-* `findappointment 05/03/2023`
+* `find alex alex@gmail.com`
+* `find toyota`
+* `find completed Oil`
 ---
 ### View
 
-### Viewing specific vehicle/customer/appointment/service details: `view`
+### Viewing specific vehicles/customers/services/appointments/technicians: `view`
 
 View a specific vehicle/customer/part/appointment/service detail. Id can be found by using the find or list command.
 
-Format: `view(vehicle/customer/appointment/service) ID`
+Format: `view(vehicle/customer/appointment/service/technician) ID`
 
 Examples:
 * `viewvehicle 12`
 * `viewcustomer 2`
 * `viewappointment 56`
 * `viewservice 77`
-
-### Viewing specific vehicle/customer/part/appointment details: `view`
-
-View a specific part detail. Part name can be found by using the find or list command.
-
-Format: `viewpart name`
-
-Examples:
-* `viewpart Cylinder Head`
 
 ---
 ### Edit
@@ -193,27 +192,27 @@ Examples:
 
 Updates the specified (Vehicle/Customer/Appointment) information
 
-Format: `edit(vehicle/customer/appointment) ID [?/PARAM] …​`
+Format: `edit(vehicle/customer/appointment/service/technician) i/ID [?/PARAM] …​`
 
 * Edits the specified object at the specified `ID`. The id refers to the index number shown in the displayed list from the list or find command. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 
 Examples:
-*  `editcustomer 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the person with id 1 to be `91234567` and `johndoe@example.com` respectively.
-*  `editvehicle 2 p/SBA9876G` Edits the plate number of the vehicle with id 2 to be `SBA9876G`.
+*  `editcustomer i/1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the person with id 1 to be `91234567` and `johndoe@example.com` respectively.
+*  `editvehicle i/2 p/SBA9876G` Edits the plate number of the vehicle with id 2 to be `SBA9876G`.
 
 ---
 ### Delete
 
-### Deleting a vehicle/customer/appointment/service : `delete`
+### Deleting a vehicle/customer/appointment/service/technician : `delete`
 
 Deletes the specified vehicle/customer/part/appointment/service from the system and all its related records.
 * Deletes the vehicle/customer/part/appointment/service at the specified `ID`.
 * The id refers to the index number shown in the displayed list from the list or find command.
 * The id **must be a positive integer** 1, 2, 3, …​
 
-Format: `delete(vehicle/customer/appointment) ID`
+Format: `delete(vehicle/customer/appointment/service/technician) ID`
 
 Example: `deletecustomer 12` deletes the customer with id 12 and all their related records in the AutoM8 system.
 
@@ -238,19 +237,46 @@ Format: `undo`
 Example flow:
 1. `add customer n/john p/91238765 e/john@gmail.com a/kent ridge street, block 123, #01-01`
 2. `undo`
-3. *System deletes previously added customer*
+
+`undo` will reverse the add command, causing the system to delete previously added customer.
+
+_See below for a list of commands that `undo` applies to_
 
 ### Redo a previously executed command: `redo`
 
-Repeats the execution of the previously typed command
-
+Restores most recent command that was undone using undo. If you use a command that is not undo or redo, while in the midst of undoing, there will no longer be commands to redo.
 Format: `redo`
 
-Example flow:
-to be updated
+Examples:
+
+- `deletecustomer 3`  
+  `undo`  
+  `redo`
+
+After deleting a customer at Index 3 and using `undo` to reverse the deletion of the customer, using `redo` will restore the customer back into the list.
+
+<div markdown="block" class="alert alert-info">
+
+**Commands that you can undo/redo:**<br>
+* `add` after successfully adding a contact
+* `delete`
+* `edit`
+* `undo`/`redo` i.e. you can `undo` a `redo`, and you can `redo` an `undo`
+</div>
 
 ---
 ### Others
+
+
+### Get number of appointments : `totalappointment`
+
+Finds the number of appointments on the specified date.
+
+Format: `totalAppointment d\DATE`
+
+Example: `totalappointment d/2023-02-03`
+
+* The `DATE` must follow a YYYY-MM-DD format. The range of allowable years is 0001 to 9999.
 
 ### Exiting the program : `exit`
 
@@ -286,6 +312,9 @@ to be updated
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Command summary may be using outdated syntax please refer to guide above
+</div>
 
 | Action                                                  | Format, Examples                                                                                                                                                                |
 |---------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -303,6 +332,7 @@ to be updated
 | **View specific Vehicle/Customer/Part/Appointment**     | `view(vehicle/customer/part/appointment) ID`<br> e.g., `view appointment 56`                                                                                                    |
 | **Edit a specific Vehicle/Customer/Part/Appointment**   | `edit(vehicle/customer/part/appointment) ID [?/PARAM] …​`<br> e.g., `edit customer 1 p/91234567 e/johndoe@example.com`                                                          |
 | **Delete a specific Vehicle/Customer/Part/Appointment** | `delete(vehicle/customer/part/appointment) ID`<br> e.g., `delete customer 12`                                                                                                   |
+| **Total appointment on a specified date**               | `TotalAppointment d/DATE`                                                                                                                                                       |
 | **Undo**                                                | `undo`                                                                                                                                                                          |
 | **Redo**                                                | `redo`                                                                                                                                                                          |
 | **Exit**                                                | `exit`                                                                                                                                                                          |

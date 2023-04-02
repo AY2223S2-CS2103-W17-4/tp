@@ -59,7 +59,7 @@ public class AddTechnicianCommand extends AddStaffCommand {
         }
 
         model.addTechnician(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd), Tab.TECHNICIANS);
     }
 
     @Override

@@ -17,8 +17,11 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.ListAppointmentsCommand;
 import seedu.address.logic.commands.ListCustomersCommand;
+import seedu.address.logic.commands.ListPartsCommand;
 import seedu.address.logic.commands.ListServicesCommand;
+import seedu.address.logic.commands.ListTechniciansCommand;
 import seedu.address.logic.commands.ListVehiclesCommand;
 import seedu.address.logic.commands.Tab;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -43,9 +46,14 @@ public class MainWindow extends UiPart<Stage> {
     private CustomerListPanel customerListPanel;
     private VehicleListPanel vehicleListPanel;
     private ServiceListPanel serviceListPanel;
+    private AppointmentListPanel appointmentListPanel;
+    private TechnicianListPanel technicianListPanel;
+    private PartListPanel partListPanel;
     private CustomerDetailsPanel customerDetailsPanel;
     private VehicleDetailsPanel vehicleDetailsPanel;
     private ServiceDetailsPanel serviceDetailsPanel;
+    private AppointmentDetailsPanel appointmentDetailsPanel;
+    private TechnicianDetailsPanel technicianDetailsPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
 
@@ -65,6 +73,14 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane serviceListPanelPlaceholder;
 
     @FXML
+    private StackPane appointmentListPanelPlaceholder;
+
+    @FXML
+    private StackPane technicianListPanelPlaceholder;
+    @FXML
+    private StackPane partListPlaceholder;
+
+    @FXML
     private StackPane resultDisplayPlaceholder;
 
     @FXML
@@ -78,6 +94,10 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane vehicleDetailsPlaceholder;
     @FXML
     private StackPane serviceDetailsPlaceholder;
+    @FXML
+    private StackPane appointmentDetailsPlaceholder;
+    @FXML
+    private StackPane technicianDetailsPlaceholder;
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
@@ -154,10 +174,30 @@ public class MainWindow extends UiPart<Stage> {
         serviceListPanelPlaceholder.getChildren().add(serviceListPanel.getRoot());
     }
 
+    private void initAppointmentListPanel() {
+        appointmentListPanel = new AppointmentListPanel(logic.getFilteredAppointmentList(),
+                logic.getAppointmentDataMap());
+        appointmentListPanelPlaceholder.getChildren().add(appointmentListPanel.getRoot());
+    }
+
+    private void initTechnicianListPanel() {
+        technicianListPanel = new TechnicianListPanel(logic.getFilteredTechnicianList(),
+                logic.getTechnicianDataMap());
+        technicianListPanelPlaceholder.getChildren().add(technicianListPanel.getRoot());
+    }
+
+    private void initPartListPanel() {
+        partListPanel = new PartListPanel(logic.getPartMap());
+        partListPlaceholder.getChildren().add(partListPanel.getRoot());
+    }
+
     private void initTabResultDisplayMessages() {
         tabResultDisplayMessages[Tab.CUSTOMERS.ordinal()] = ListCustomersCommand.MESSAGE_SUCCESS;
         tabResultDisplayMessages[Tab.VEHICLES.ordinal()] = ListVehiclesCommand.MESSAGE_SUCCESS;
         tabResultDisplayMessages[Tab.SERVICES.ordinal()] = ListServicesCommand.MESSAGE_SUCCESS;
+        tabResultDisplayMessages[Tab.APPOINTMENTS.ordinal()] = ListAppointmentsCommand.MESSAGE_SUCCESS;
+        tabResultDisplayMessages[Tab.TECHNICIANS.ordinal()] = ListTechniciansCommand.MESSAGE_SUCCESS;
+        tabResultDisplayMessages[Tab.PARTS.ordinal()] = ListPartsCommand.MESSAGE_SUCCESS;
     }
 
     /**
@@ -169,6 +209,9 @@ public class MainWindow extends UiPart<Stage> {
         initCustomerListPanel();
         initVehicleListPanel();
         initServiceListPanel();
+        initAppointmentListPanel();
+        initTechnicianListPanel();
+        initPartListPanel();
 
         initSelected();
 
@@ -184,6 +227,9 @@ public class MainWindow extends UiPart<Stage> {
 
         tabs.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             resultDisplay.setFeedbackToUser(tabResultDisplayMessages[newValue.intValue()]);
+            if (newValue.intValue() == Tab.PARTS.ordinal()) {
+                initPartListPanel();
+            }
         });
     }
 
@@ -233,7 +279,14 @@ public class MainWindow extends UiPart<Stage> {
 
     private void updateSelectedTab(CommandResult commandResult) {
         int tabIndex = commandResult.getType().ordinal();
-        tabResultDisplayMessages[tabIndex] = commandResult.getFeedbackToUser();
+        if (commandResult.getType() != Tab.UNCHANGED && commandResult.getType() != Tab.ALL) {
+            tabResultDisplayMessages[tabIndex] = commandResult.getFeedbackToUser();
+        }
+        if (commandResult.getType() == Tab.ALL) {
+            for (int i = 0; i < tabResultDisplayMessages.length; i++) {
+                tabResultDisplayMessages[i] = commandResult.getFeedbackToUser();
+            }
+        }
         if (!tabs.getSelectionModel().isSelected(tabIndex) && commandResult.getType() != Tab.UNCHANGED) {
             tabs.getSelectionModel().select(tabIndex);
         }
@@ -251,6 +304,16 @@ public class MainWindow extends UiPart<Stage> {
         serviceDetailsPlaceholder.getChildren().clear();
         serviceDetailsPanel = new ServiceDetailsPanel(logic.getSelectedService(), logic.getServiceDataMap());
         serviceDetailsPlaceholder.getChildren().add(serviceDetailsPanel.getRoot());
+
+        appointmentDetailsPlaceholder.getChildren().clear();
+        appointmentDetailsPanel = new AppointmentDetailsPanel(logic.getSelectedAppointment(),
+                logic.getAppointmentDataMap());
+        appointmentDetailsPlaceholder.getChildren().add(appointmentDetailsPanel.getRoot());
+
+        technicianDetailsPlaceholder.getChildren().clear();
+        technicianDetailsPanel = new TechnicianDetailsPanel(logic.getSelectedTechnician(),
+                logic.getTechnicianDataMap());
+        technicianDetailsPlaceholder.getChildren().add(technicianDetailsPanel.getRoot());
     }
 
 
@@ -266,6 +329,11 @@ public class MainWindow extends UiPart<Stage> {
             updateSelectedTab(commandResult);
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
             initSelected();
+
+            // TODO: Hack to display updated parts on ui, need to make parts into observable map/list
+            if (commandResult.getType() == Tab.PARTS) {
+                initPartListPanel();
+            }
 
             if (commandResult.isShowHelp()) {
                 handleHelp();

@@ -36,6 +36,9 @@ public class ServiceDataMap {
      * @param vehicles  The list of vehicles.
      */
     public void reset(List<Service> services, List<Technician> technicians, List<Vehicle> vehicles) {
+        this.serviceToVehicleMap.clear();
+        this.serviceToTechniciansMap.clear();
+
         Map<Integer, Technician> idToStaffMap = new HashMap<>();
         for (Technician technician : technicians) {
             idToStaffMap.put(technician.getId(), technician);

@@ -31,6 +31,8 @@ public class ServiceDetailsPanel extends UiPart<Region> {
 
     public final Service service;
     @FXML
+    private VBox parentContainer;
+    @FXML
     private Label id;
     @FXML
     private Label description;
@@ -59,6 +61,12 @@ public class ServiceDetailsPanel extends UiPart<Region> {
     }
 
     private void update(Service service, ServiceDataMap dataMap) {
+        if (service == null) {
+            parentContainer.getChildren().clear();
+            parentContainer.getChildren().add(new EmptyDetailsPanelPlaceholder("Service").getRoot());
+            return;
+        }
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         id.setText("Service ID: " + service.getId());

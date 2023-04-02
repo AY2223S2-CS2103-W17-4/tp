@@ -3,10 +3,9 @@ object "__:StackUndoRedo__" as s1
 object "__undoStack:Stack__" as s2
 object "__redoStack:Stack__" as s3
 object "__:DeleteCustomerCommand__" as d1
-object "__:ListCustomersCommand__" as a1
+
 
 s1 *--> s2
 s1 *--> s3
 s2 --> d1
-s2 --> a1
 @enduml

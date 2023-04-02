@@ -4,7 +4,6 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 
 import seedu.address.logic.commands.ViewCustomerCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.entity.person.CustomerIdPredicate;
 
 /**
  * Parses input arguments and creates a new ViewCustomerCommand object
@@ -20,7 +19,7 @@ public class ViewCustomerCommandParser implements Parser<ViewCustomerCommand> {
 
         try {
             int index = ParserUtil.parseInt(args.trim());
-            return new ViewCustomerCommand(new CustomerIdPredicate(index));
+            return new ViewCustomerCommand(index);
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewCustomerCommand.MESSAGE_USAGE), pe);

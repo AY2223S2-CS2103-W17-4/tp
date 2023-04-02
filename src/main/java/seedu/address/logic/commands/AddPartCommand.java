@@ -54,7 +54,7 @@ public class AddPartCommand extends RedoableCommand {
         }
 
         model.addPart(partName, quantity);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, partName));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, partName), Tab.PARTS);
     }
 
     @Override

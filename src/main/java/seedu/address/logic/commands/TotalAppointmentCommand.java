@@ -20,7 +20,7 @@ public class TotalAppointmentCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Total cars on date xxx displayed";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Display number of customer appointments given a date."
-                                                       + "Parameters: ID\n"
+                                                       + "Parameters: d/DATE"
                                                        + "Example: " + COMMAND_WORD + " "
                                                        + PREFIX_DATE + "2023-02-03";
 
@@ -46,7 +46,7 @@ public class TotalAppointmentCommand extends Command {
             }
         }
         return new CommandResult(
-                String.format(Messages.MESSAGE_DATE_APPOINTMENT_OVERVIEW, count, date.toLocalDate()));
+                String.format(Messages.MESSAGE_DATE_APPOINTMENT_OVERVIEW, count, date.toLocalDate()), Tab.APPOINTMENTS);
     }
 
     @Override
@@ -56,4 +56,3 @@ public class TotalAppointmentCommand extends Command {
                                    && date.equals(((TotalAppointmentCommand) other).date)); // state check
     }
 }
-

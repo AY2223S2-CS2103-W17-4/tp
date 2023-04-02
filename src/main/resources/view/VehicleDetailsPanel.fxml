@@ -9,52 +9,47 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox id="vehicleDetailsPanel" fx:id="vehicleDetailsPanel" xmlns="http://javafx.com/javafx/8.0.171"
-      xmlns:fx="http://javafx.com/fxml/1">
+<HBox id="vehicleDetailsPanel" fx:id="vehicleDetailsPanel" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
   <AnchorPane minHeight="0.0" minWidth="340.0" HBox.hgrow="ALWAYS">
-    <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="edge-to-edge" AnchorPane.bottomAnchor="0.0"
-                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <VBox alignment="CENTER_LEFT" styleClass="details-box" GridPane.columnIndex="0" HBox.hgrow="ALWAYS">
+    <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="edge-to-edge" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="parentContainer" alignment="CENTER_LEFT" styleClass="details-box" GridPane.columnIndex="0" HBox.hgrow="ALWAYS">
         <padding>
-          <Insets bottom="5" left="15" right="15" top="5"/>
+          <Insets bottom="5" left="15" right="15" top="5" />
         </padding>
         <Label fx:id="title" style="-fx-text-fill: #62DDEB;" styleClass="details-heading" text="Vehicle Details">
           <minHeight>
-            <Region fx:constant="USE_PREF_SIZE"/>
+            <Region fx:constant="USE_PREF_SIZE" />
           </minHeight>
         </Label>
-        <Label id="detailsPaneName" fx:id="id" maxWidth="Infinity" styleClass="details-id" text="Vehicle ID: "
-               wrapText="true">
+        <Label id="detailsPaneName" fx:id="id" maxWidth="Infinity" styleClass="details-id" text="Vehicle ID: " wrapText="true">
           <minHeight>
-            <Region fx:constant="USE_PREF_SIZE"/>
+            <Region fx:constant="USE_PREF_SIZE" />
           </minHeight>
         </Label>
-        <Label id="detailsPaneName" fx:id="plateNumber" maxWidth="Infinity" styleClass="details-title"
-               text="\\$plateNumber" wrapText="true">
+        <Label id="detailsPaneName" fx:id="plateNumber" maxWidth="Infinity" styleClass="details-title" text="\\$plateNumber" wrapText="true">
           <minHeight>
             <!-- Ensures that the label text is never truncated -->
-            <Region fx:constant="USE_PREF_SIZE"/>
+            <Region fx:constant="USE_PREF_SIZE" />
           </minHeight>
         </Label>
-        <Label id="detailsPaneName" fx:id="subtitle" maxWidth="Infinity" styleClass="cell_title_label"
-               text="Vehicle Information" underline="true" wrapText="true">
+        <Label id="detailsPaneName" fx:id="subtitle" maxWidth="Infinity" styleClass="cell_title_label" text="Vehicle Information" underline="true" wrapText="true">
           <minHeight>
-            <Region fx:constant="USE_PREF_SIZE"/>
+            <Region fx:constant="USE_PREF_SIZE" />
           </minHeight>
         </Label>
         <Label fx:id="brandLabel" styleClass="details-info-label" text="Brand">
           <minHeight>
-            <Region fx:constant="USE_PREF_SIZE"/>
+            <Region fx:constant="USE_PREF_SIZE" />
           </minHeight>
         </Label>
 
         <Label fx:id="brand" styleClass="details-info" text="\\$brand">
           <minHeight>
             <!-- Ensures that the label text is never truncated -->
-            <Region fx:constant="USE_PREF_SIZE"/>
+            <Region fx:constant="USE_PREF_SIZE" />
           </minHeight>
           <VBox.margin>
-            <Insets bottom="4.0"/>
+            <Insets bottom="4.0" />
           </VBox.margin>
         </Label>
         <HBox spacing="10.0">
@@ -83,20 +78,25 @@
           <children>
             <Label fx:id="vehicleOwnerLabel" styleClass="cell_title_label" text="Owner" underline="true">
               <minHeight>
-                <Region fx:constant="USE_PREF_SIZE"/>
+                <Region fx:constant="USE_PREF_SIZE" />
               </minHeight>
             </Label>
           </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
         </VBox>
         <VBox fx:id="vehicleServices" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
           <children>
-            <Label fx:id="vehicleServicesLabel" styleClass="cell_title_label" text="Services" underline="true"
-                   VBox.vgrow="SOMETIMES">
+            <Label fx:id="vehicleServicesLabel" styleClass="cell_title_label" text="Services" underline="true" VBox.vgrow="SOMETIMES">
               <minHeight>
-                <Region fx:constant="USE_PREF_SIZE"/>
+                <Region fx:constant="USE_PREF_SIZE" />
               </minHeight>
             </Label>
           </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
         </VBox>
       </VBox>
     </ScrollPane>

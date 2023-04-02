@@ -1,6 +1,7 @@
 package seedu.address.model.service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -8,12 +9,13 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.commons.util.StringUtil;
+import seedu.address.model.Findable;
 import seedu.address.model.entity.person.Technician;
 
 /**
  * The Service class contains information about what task to be performed on the vehicle.
  */
-public class Service {
+public class Service implements Findable {
     public static final int DEFAULT_SEVEN_DAYS = 7;
     private final int id;
     private final int vehicleId;
@@ -190,6 +192,10 @@ public class Service {
         return new ArrayList<>(this.assignedToIds);
     }
 
+    public Set<Integer> getAssignedToIdsSet() {
+        return this.assignedToIds;
+    }
+
     /**
      * This method returns the status of this service.
      *
@@ -253,7 +259,7 @@ public class Service {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, vehicleId, description);
+        return Objects.hash(id);
     }
 
     @Override
@@ -279,10 +285,23 @@ public class Service {
         return String.format(formatter,
                 this.getId(),
                 this.getDescription(),
+                this.status,
                 this.getEntryDate(),
                 this.getEstimatedFinishDate(),
                 StringUtil.indent(parts, 2),
-                StringUtil.indent(technicians, 2),
-                status);
+                StringUtil.indent(technicians, 2));
+    }
+
+    @Override
+    public boolean hasKeyword(String keyword) {
+        boolean stringMatch = this.status.toString().toLowerCase().contains(keyword)
+            || this.description.toLowerCase().contains(keyword);
+        try {
+            LocalDate date = LocalDate.parse(keyword);
+            boolean dateMatch = this.entryDate.equals(date) || this.estimatedFinishDate.equals(date);
+            return dateMatch || stringMatch;
+        } catch (DateTimeParseException ex) {
+            return stringMatch;
+        }
     }
 }

@@ -47,7 +47,7 @@ public class DeleteServiceCommand extends RedoableCommand {
 
         model.deleteService(serviceToDeletes);
         IdGenerator.setServiceIdUnused(id);
-        return new CommandResult(String.format(MESSAGE_DELETE_SERVICE_SUCCESS, serviceToDeletes));
+        return new CommandResult(String.format(MESSAGE_DELETE_SERVICE_SUCCESS, serviceToDeletes), Tab.SERVICES);
     }
 
     @Override

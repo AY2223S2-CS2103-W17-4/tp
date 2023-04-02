@@ -10,11 +10,11 @@ import seedu.address.model.Model;
 /**
  * Manages adding of parts to services
  */
-public class AddPartToServiceCommand extends Command {
+public class AddPartToServiceCommand extends RedoableCommand {
     public static final String COMMAND_WORD = "addservicepart";
     public static final String MESSAGE_SUCCESS_FORMAT = "%d x (%s) added to service %d";
-    public static final String MESSAGE_SERVICE_NOT_FOUND = "Service does not exist";
-    public static final String MESSAGE_PART_NOT_FOUND = "Part not in system";
+    public static final String MESSAGE_SERVICE_NOT_FOUND = "Service %d does not exist";
+    public static final String MESSAGE_PART_NOT_FOUND = "Part %s not in system";
     public static final String MESSAGE_INSUFFICIENT_PART = "Not enough parts to assign to service";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a part to the service. "
         + "Parameters: "
@@ -49,12 +49,12 @@ public class AddPartToServiceCommand extends Command {
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    public CommandResult executeUndoableCommand(Model model) throws CommandException {
         if (!model.hasService(this.serviceId)) {
-            throw new CommandException(MESSAGE_SERVICE_NOT_FOUND);
+            throw new CommandException(String.format(MESSAGE_SERVICE_NOT_FOUND, this.serviceId));
         }
         if (!model.getPartMap().contains(this.partName)) {
-            throw new CommandException(MESSAGE_PART_NOT_FOUND);
+            throw new CommandException(String.format(MESSAGE_PART_NOT_FOUND, this.partName));
         }
         if (model.getPartMap().getPartQuantity(this.partName) < this.quantity) {
             throw new CommandException(MESSAGE_INSUFFICIENT_PART);

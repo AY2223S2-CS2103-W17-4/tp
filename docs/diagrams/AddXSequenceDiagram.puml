@@ -1,0 +1,69 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":AddXCommandParser" as AddXCommandParser LOGIC_COLOR
+participant "v:AddXCommand" as AddXCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("addX args*")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("addX args*")
+activate AddressBookParser
+
+create AddXCommandParser
+AddressBookParser -> AddXCommandParser
+activate AddXCommandParser
+
+AddXCommandParser --> AddressBookParser
+deactivate AddXCommandParser
+
+AddressBookParser -> AddXCommandParser : parse("args*")
+activate AddXCommandParser
+
+create AddXCommand
+AddXCommandParser -> AddXCommand
+activate AddXCommand
+
+AddXCommand --> AddXCommandParser : x
+deactivate AddXCommand
+
+AddXCommandParser --> AddressBookParser : x
+deactivate AddXCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+AddXCommandParser -[hidden]-> AddressBookParser
+destroy AddXCommandParser
+
+AddressBookParser --> LogicManager : x
+deactivate AddressBookParser
+
+LogicManager -> AddXCommand : execute()
+activate AddXCommand
+
+AddXCommand -> Model : addX(x)
+activate Model
+
+Model --> AddXCommand
+deactivate Model
+
+create CommandResult
+AddXCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> AddXCommand
+deactivate CommandResult
+
+AddXCommand --> LogicManager : result
+deactivate AddXCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml
